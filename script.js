@@ -20,12 +20,19 @@ const render = () => {
 };
 
 /**
+ * Saves the current tasks array to local storage.
+ */
+const syncTasks = () => {
+    localStorage.setItem("tasks", JSON.stringify(tasks)); // Convert tasks array to JSON string and save it in local storage
+};
+
+/**
  * Toggles the completion status of a task
  */
 const toggleCompleteTask = (index) => {
     tasks[index].completed = !tasks[index].completed; // Toggle the completion status
     tasks = [...tasks]; // Update tasks array to trigger reactivity
-    localStorage.setItem("tasks", JSON.stringify(tasks)); // Save updated tasks to local storage
+    syncTasks(); // Save updated tasks to local storage
     render(); // Re-render the tasks list
 };
 
@@ -35,7 +42,7 @@ const toggleCompleteTask = (index) => {
 const deleteTask = (index) => {
     tasks = tasks.filter((_, _index) => _index !== index); // Remove the task from the array
     tasks = [...tasks]; // Update tasks array to trigger reactivity
-    localStorage.setItem("tasks", JSON.stringify(tasks)); // Save updated tasks to local storage
+    syncTasks(); // Save updated tasks to local storage
     render(); // Re-render the tasks list
 };
 
@@ -73,7 +80,7 @@ const onAddTask = (event) => {
         tasks = [...tasks, newTask]; // Add new task to the tasks array
     }
 
-    localStorage.setItem("tasks", JSON.stringify(tasks)); // Save tasks to local storage
+    syncTasks(); // Save updated tasks to local storage
     render(); // Re-render the tasks list
     form.reset(); // Reset the form
 };
